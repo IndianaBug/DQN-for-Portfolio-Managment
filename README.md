@@ -31,3 +31,14 @@ Which library to choose for RL:
 https://neptune.ai/blog/the-best-tools-for-reinforcement-learning-in-python
 
 I would prefer to go with RL_Coach, as there is Quantile Regression DQN. Suggestions?
+
+
+
+# Deep reinforcement learning resources
+# https://github.com/IntelLabs/coach#tutorials-and-documentation
+# https://paperswithcode.com/paper/practical-deep-reinforcement-learning
+# https://github.com/AI4Finance-Foundation/FinRL
+# https://www.gymlibrary.dev/
+# https://medium.com/@mlblogging.k/creating-an-openai-gym-for-applying-reinforcement-learning-to-the-stock-trading-problem-61b4506de608
+# https://gym-trading-env.readthedocs.io/en/latest/rl_tutorial.html
+# https://colab.sandbox.google.com/github/wongchunghang/Colab_OpenAI_Gym_Stock_Trading/blob/master/OpenAI_Gym_Trading_Env_V0.ipynb
