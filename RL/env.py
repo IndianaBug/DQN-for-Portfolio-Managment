@@ -2,7 +2,7 @@
 from data_loader import Data
 import numpy as np
 from copy import deepcopy
-from RL.utilis import save_data_structure
+from utilis import save_data_structure
 import json, codecs
 import numpy as np
                   
@@ -21,7 +21,7 @@ class TradingEnv:
         self.data = Data(T=T)
         self.spread = 0.005
         self.commision = 0.001
-        self.margin_maintanance = 0.0001
+        self.margin_maintanance = 0.000001
         self.trade_size = initial_value
         self.previous_position = "None"
 
@@ -54,6 +54,7 @@ class TradingEnv:
         self.portfolio = [float(self.initial_value)]
         self.trade_size = self.initial_value
         self.data.reset()
+        self.actions = []
         self.actions.append(0)
         return_, state_initial = self.data.next()
         self.data.n -= 1

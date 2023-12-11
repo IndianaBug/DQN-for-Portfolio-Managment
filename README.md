@@ -42,3 +42,4 @@ I would prefer to go with RL_Coach, as there is Quantile Regression DQN. Suggest
 # https://medium.com/@mlblogging.k/creating-an-openai-gym-for-applying-reinforcement-learning-to-the-stock-trading-problem-61b4506de608
 # https://gym-trading-env.readthedocs.io/en/latest/rl_tutorial.html
 # https://colab.sandbox.google.com/github/wongchunghang/Colab_OpenAI_Gym_Stock_Trading/blob/master/OpenAI_Gym_Trading_Env_V0.ipynb
+# https://github.com/conditionWang/DRQN_Stock_Trading/tree/main/code_server

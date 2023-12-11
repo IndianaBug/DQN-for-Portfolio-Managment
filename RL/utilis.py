@@ -8,6 +8,31 @@ import matplotlib.pyplot as plt
 import json
 import codecs
 
+def logarithmic_epsilon_decay(episodes, max_epsilon, min_epsilon):
+    """
+    Logarithmic epsilon decay function.
+
+    Args:
+        episodes: The number of episodes.
+
+    Returns:
+        The epsilon value for a given episode number.
+    """
+    # Initialize epsilon with initial value
+    epsilon = max_epsilon
+
+    for episode in range(episodes):
+        if episode == 0:
+            yield 1
+        # Calculate the decay factor for the current episode
+        decay_factor = np.log10(epsilon / min_epsilon) / (episodes - 1)
+
+        # Update epsilon with the decay factor
+        epsilon = epsilon * np.power(10.0, -decay_factor)
+
+        # Yield the updated epsilon value
+        yield epsilon
+
 def time_features(dt, timecycle):
     if timecycle == 'day':
         a = math.sin(2 * math.pi * dt / 7.)
@@ -186,5 +211,13 @@ def plot_loss(training_losses, validation_losses):
     plt.xlabel('Epoch')
     plt.ylabel('Loss')
     plt.title('Training and Validation Loss Over Epochs with Early Stopping')
+    plt.legend()
+    plt.show()
+
+def plot_portfolio(values):
+    plt.plot(range(1, len(values) + 1), values, label='Portfolio_Value', marker='o')
+    plt.xlabel('Timestamp')
+    plt.ylabel('$$$')
+    plt.title('Portfolio Value over training period')
     plt.legend()
     plt.show()
