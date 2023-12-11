@@ -1,7 +1,7 @@
 from env import TradingEnv
 from memory import Transition, ReplayMemory
-from model import DQN
-from utilis import save_data_structure, plot_loss, logarithmic_epsilon_decay
+from model import DQN, QuantileLoss
+from utilis import save_data_structure, plot_loss_portfolio, logarithmic_epsilon_decay
 import numpy as np
 import random
 import torch
@@ -11,12 +11,11 @@ import torch.nn.functional as F
 import torch.nn.init as weight_init
 import copy
 import os
-from pytorch_forecasting.metrics import QuantileLoss
 
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 # device = torch.device("cpu")
 
-class DDPG:
+class DQN_agent:
 	def __init__(self, 
 				T=96, 
 				gamma=0.99, 
@@ -27,7 +26,9 @@ class DDPG:
 				patience=30,
 				soft_update_interval=5,
 				epochs = 1000,
-				early_saturation_percentage=1):
+				early_saturation_percentage=1,
+				lr=0.00025,
+				is_tunning=False):
 		
 		self.train_env = TradingEnv(T=T)
 		self.val_env = TradingEnv(T=T)
@@ -50,7 +51,9 @@ class DDPG:
 		self.episodes = episodes
 		self.prev_weights = None
 		self.early_saturation_percentage = early_saturation_percentage
-		
+		self.quantiles = [0.95, 0.5, 0.05]
+		self.lr = lr
+		self.is_tunning = is_tunning
 
 		if os.path.exists('models/target_model'):
 			self.policy_net = torch.load('models/policy_model', map_location=device)
@@ -62,7 +65,7 @@ class DDPG:
 			for param_p in self.policy_net.parameters(): 
 				weight_init.normal_(param_p)
 
-		self.optimizer = torch.optim.Adam(self.policy_net.parameters(), lr=0.00025)
+		self.optimizer = torch.optim.Adam(self.policy_net.parameters(), lr=self.lr)
 		
 	def act(self, state):
 		# Exploration
@@ -98,11 +101,13 @@ class DDPG:
 	def gather_samples(self):
 		state_train = self.train_env.reset() 
 		state_val = self.val_env.reset()
+		self.total_reward = []
 		for step in range(len(self.train_env.data)):
 			try:
 				action_train = self.act(state_train) 
 				actions_train, rewards_train, new_states_train, state_train, done_train = self.train_env.step(action_train)
 				self.store_train(state_train, actions_train, new_states_train, rewards_train, action_train, step)
+				self.total_reward += rewards_train[-1]
 
 				action_val = self.act(state_val) 
 				actions_val, rewards_val, new_states_val, state_val, done_val = self.val_env.step(action_val)
@@ -142,8 +147,11 @@ class DDPG:
 			next_state_values[non_final_mask] = self.target_net(next_state)[self.T-1:l:self.T].max(1)[0].detach()
 			# Compute the expected Q values
 			expected_state_action_values = (next_state_values * self.gamma) + reward_batch
-			loss = torch.nn.QuantileLoss(q=[0.05, 0.1, 0.25, 0.5, 0.75, 0.9, 0.95])(expected_state_action_values, state_action_values)
+
+			loss_fn = QuantileLoss(self.quantiles)
+			loss = loss_fn(expected_state_action_values, state_action_values)
 			loss.backward()
+
 			for param in self.policy_net.parameters():
 					param.grad.data.clamp_(-1, 1)
 			loss_numpy = loss.cpu().detach().numpy()
@@ -168,7 +176,7 @@ class DDPG:
 				next_state_values_val[non_final_mask_val] = self.target_net(next_state_val)[self.T-1:l_val:self.T].max(1)[0].detach()
 				# Compute the expected Q values
 				expected_state_action_values_val = (next_state_values_val * self.gamma) + reward_batch_val
-				loss_val = torch.nn.QuantileLoss(q=[0.05, 0.1, 0.25, 0.5, 0.75, 0.9, 0.95])(expected_state_action_values_val, state_action_values_val)
+				loss_val =loss_fn(expected_state_action_values_val, state_action_values_val)
 			loss_numpy_val = loss_val.cpu().detach().numpy()
 			validation_losses.append(loss_numpy_val.item())
 
@@ -190,25 +198,14 @@ class DDPG:
 			else:
 				patience_counter += 1
 			if patience_counter >= self.patience:
-				if step % 100 == 0 or step == 1000 or step == 1:
-					print(f'Early stopping at epoch {epoch + 1}')
+				print(f'Early stopping at epoch {epoch + 1}')
 				break
 		# if step % 100 == 0 or step == 1000 or step == 1:
 		# 	plot_loss(training_losses, validation_losses)
-		save_data_structure('results/training_loss.json', step, training_losses)
-		save_data_structure('results/validation_loss.json', step, validation_losses)
-		plot_loss(training_losses, validation_losses)
-		# # Early stopping if policy doesnt imporove
-		# current_weights = self.policy_net.state_dict()
-		# if self.prev_weights is not None:
-		# 	weight_changes = {k: torch.norm(v - self.prev_weights[k]) for k, v in current_weights.items()}
-		# 	percentage_changes = {k: (change / torch.norm(self.prev_weights[k])) * 100.0 for k, change in weight_changes.items()}
-		# # Check if changes are small
-		# 	print(percentage_changes.values())
-		# 	if all(change < self.early_saturation_percentage for change in percentage_changes.values()):
-		# 		print(f"Early saturation detected. Training stopped. Threshold: {self.early_saturation_percentage}%")
-		# 		done = True
-		# self.prev_weights = current_weights
+		if self.is_tunning==False:
+			save_data_structure('results/training_loss.json', step, training_losses)
+			save_data_structure('results/validation_loss.json', step, validation_losses)
+			plot_loss_portfolio(training_losses, validation_losses, self.train_env.portfolio)
 		self.epsilon = next(self.epsilon_iterator)
 
-		return done
+		return -np.mean(self.total_reward) 

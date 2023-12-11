@@ -205,19 +205,23 @@ def save_data_structure(file_path, key, value):
     with open(file_path, 'w') as json_file:
         json.dump(data, json_file)
 
-def plot_loss(training_losses, validation_losses):
-    plt.plot(range(1, len(training_losses) + 1), training_losses, label='Training Loss', marker='o')
-    plt.plot(range(1, len(validation_losses) + 1), validation_losses, label='Validation Loss', marker='o')
-    plt.xlabel('Epoch')
-    plt.ylabel('Loss')
-    plt.title('Training and Validation Loss Over Epochs with Early Stopping')
-    plt.legend()
+def plot_loss_portfolio(training_losses, validation_losses, values):
+
+    fig, axes = plt.subplots(nrows=1, ncols=2, figsize=(12, 6))
+
+    axes[0].plot(range(1, len(training_losses) + 1), training_losses, label='Training Loss', marker='o')
+    axes[0].plot(range(1, len(validation_losses) + 1), validation_losses, label='Validation Loss', marker='o')
+    axes[0].set_xlabel('Epoch')
+    axes[0].set_ylabel('Loss')
+    axes[0].set_title('Training and Validation Loss Over Epochs with Early Stopping')
+    axes[0].legend()
+
+    axes[1].plot(range(1, len(values) + 1), values, label='Portfolio_Value', marker='o')
+    axes[1].set_xlabel('Timestamp')
+    axes[1].set_ylabel('$$$')
+    axes[1].set_title('Portfolio Value over training period')
+    axes[1].legend()
+
+    plt.tight_layout()
     plt.show()
 
-def plot_portfolio(values):
-    plt.plot(range(1, len(values) + 1), values, label='Portfolio_Value', marker='o')
-    plt.xlabel('Timestamp')
-    plt.ylabel('$$$')
-    plt.title('Portfolio Value over training period')
-    plt.legend()
-    plt.show()

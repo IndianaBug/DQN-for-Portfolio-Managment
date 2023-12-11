@@ -140,6 +140,8 @@ class TradingEnv:
     def print_stats(self, episode):
         save_data_structure(f"results/action.json", episode, self.actions)
         save_data_structure(f"results/portfolio.json", episode, self.portfolio)
+    
+
 
 
 
