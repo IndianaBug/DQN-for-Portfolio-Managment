@@ -23,12 +23,12 @@ The primary purpose of this project is to develop an intelligent trading system 
 
 ## Goals
 
-Algorithmic Trading: Implement a Deep Q-Learning algorithm to autonomously make trading decisions by learning from historical market data.
-Risk Management: Develop strategies for risk assessment and management to minimize potential losses in various market scenarios.
-Market Adaptability: Enable the system to adapt to changing market conditions, incorporating real-time data for more accurate predictions.
-Portfolio Optimization: Optimize the composition of the stock portfolio to maximize returns while considering risk tolerance and investment goals.
-Backtesting and Evaluation: Implement robust backtesting mechanisms to evaluate the performance of the trading system using historical data.
-Continuous Learning: Implement mechanisms for continuous learning, enabling the system to adapt and improve its strategies over time.
+- Algorithmic Trading: Implement a Deep Q-Learning algorithm to autonomously make trading decisions by learning from historical market data.
+- Risk Management: Develop strategies for risk assessment and management to minimize potential losses in various market scenarios.
+- Market Adaptability: Enable the system to adapt to changing market conditions, incorporating real-time data for more accurate predictions.
+- Portfolio Optimization: Optimize the composition of the stock portfolio to maximize returns while considering risk tolerance and investment goals.
+- Backtesting and Evaluation: Implement robust backtesting mechanisms to evaluate the performance of the trading system using historical data.
+- Continuous Learning: Implement mechanisms for continuous learning, enabling the system to adapt and improve its strategies over time.
 
 ## Potential Features
 
