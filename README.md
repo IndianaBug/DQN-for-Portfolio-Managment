@@ -1,45 +1,29 @@
-To do:
+Notes
 
-1. Exploratory Analysis of Technical Indicators:
- - Choose the indicators you want to use (e.g., SMA, EMA, etc.).
- - Calculate these indicators for your dataset (e.g., using Python and libraries like pandas and numpy).
- - Plot the indicators over the price data to visualize how they relate to price movements.
- - Justify the choice of specific values (e.g., 10, 20, 50, 100) for the indicators by observing historical price bounces around these levels. You might look for instances where the price seems to have reversed its direction around these specific points.
- - Calculating Returns and Binary Trends:
+The requirements.txt file should list all Python libraries that your notebooks depend on, and they will be installed using:
 
-2. Forecast the price for a given horizon (e.g., 5 days in advance).
- - Calculate the difference between the current day's closing price and the predicted price.
- - Transform this difference into a binary signal (0 for price decrease, 1 for price increase).
- - Create a DataFrame with two columns: "Closing Price" and "Binary Trend".
- - Implementing the Trading Strategy:
+pip install -r requirements.txt
 
-3. Based on the binary signals, implement the trading strategy:
- - If the binary trend is 1, buy.
- - If the next cell is 1, do nothing.
- - If the next cell is 0, sell.
- - Calculating Returns and Metrics:
+Description:
 
-4. Calculate returns based on the trading strategy.
-- Compute the Asset Expected Mean Return, Gain-Loss Ratio, Sharpe Ratio, and CAGR:
-- Asset Expected Mean Return: This is the average return of your asset over a specified period.
-- Gain-Loss Ratio: It measures the ratio of gains to losses. It's calculated by dividing the average gain by the average loss.
-- Sharpe Ratio: It measures the risk-adjusted return of an investment. It's calculated by dividing the excess return of the investment by its standard deviation of returns.
-- Compound Annual Growth Rate (CAGR): It represents the mean annual growth rate of an investment over a specified time period.
+The Automated Stock Trading System of Cocal Cola stock powerd by Deep Q Learning that aims automate decision-making processes for buying, selling, and holding stocks in dynamic financial markets.
 
+Purpose:
 
-Which library to choose for RL: 
-https://neptune.ai/blog/the-best-tools-for-reinforcement-learning-in-python
+The primary purpose of this project is to develop an intelligent trading system that adapts to changing market conditions. By utilizing Deep Q-Learning, the system learns optimal trading strategies based on historical data, technical indicators, and market trends. The goal is to enhance portfolio performance and provide users with a systematic approach to investment decision-making.
 
-I would prefer to go with RL_Coach, as there is Quantile Regression DQN. Suggestions?
+Goals:
 
+Algorithmic Trading: Implement a Deep Q-Learning algorithm to autonomously make trading decisions by learning from historical market data.
+Risk Management: Develop strategies for risk assessment and management to minimize potential losses in various market scenarios.
+Market Adaptability: Enable the system to adapt to changing market conditions, incorporating real-time data for more accurate predictions.
+Portfolio Optimization: Optimize the composition of the stock portfolio to maximize returns while considering risk tolerance and investment goals.
+Backtesting and Evaluation: Implement robust backtesting mechanisms to evaluate the performance of the trading system using historical data.
+Continuous Learning: Implement mechanisms for continuous learning, enabling the system to adapt and improve its strategies over time.
 
+Potential Features:
 
-# Deep reinforcement learning resources
-# https://github.com/IntelLabs/coach#tutorials-and-documentation
-# https://paperswithcode.com/paper/practical-deep-reinforcement-learning
-# https://github.com/AI4Finance-Foundation/FinRL
-# https://www.gymlibrary.dev/
-# https://medium.com/@mlblogging.k/creating-an-openai-gym-for-applying-reinforcement-learning-to-the-stock-trading-problem-61b4506de608
-# https://gym-trading-env.readthedocs.io/en/latest/rl_tutorial.html
-# https://colab.sandbox.google.com/github/wongchunghang/Colab_OpenAI_Gym_Stock_Trading/blob/master/OpenAI_Gym_Trading_Env_V0.ipynb
-# https://github.com/conditionWang/DRQN_Stock_Trading/tree/main/code_server
+Real-time market data integration.
+Dynamic portfolio rebalancing.
+Sentiment analysis for news and social media data.
+Machine learning models for predicting stock price movements.
