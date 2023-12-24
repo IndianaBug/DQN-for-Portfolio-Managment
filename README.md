@@ -13,15 +13,15 @@ The requirements.txt file should list all Python libraries that your notebooks d
   - git clone https://github.com/badcoder-cloud/DQN-for-Portfolio-Managment
   - pip install -r requirements.txt
 
-## Description:
+## Description
 
 The Automated Stock Trading System of Cocal Cola stock powerd by Deep Q Learning that aims automate decision-making processes for buying, selling, and holding stocks in dynamic financial markets.
 
-## Purpose:
+## Purpose
 
 The primary purpose of this project is to develop an intelligent trading system that adapts to changing market conditions. By utilizing Deep Q-Learning, the system learns optimal trading strategies based on historical data, technical indicators, and market trends. The goal is to enhance portfolio performance and provide users with a systematic approach to investment decision-making.
 
-## Goals:
+## Goals
 
 Algorithmic Trading: Implement a Deep Q-Learning algorithm to autonomously make trading decisions by learning from historical market data.
 Risk Management: Develop strategies for risk assessment and management to minimize potential losses in various market scenarios.
@@ -30,7 +30,7 @@ Portfolio Optimization: Optimize the composition of the stock portfolio to maxim
 Backtesting and Evaluation: Implement robust backtesting mechanisms to evaluate the performance of the trading system using historical data.
 Continuous Learning: Implement mechanisms for continuous learning, enabling the system to adapt and improve its strategies over time.
 
-## Potential Features:
+## Potential Features
 
 Real-time market data integration.
 Dynamic portfolio rebalancing.
